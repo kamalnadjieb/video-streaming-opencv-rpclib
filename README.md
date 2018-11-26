@@ -18,7 +18,7 @@ make
 
 ## Run Server
 ```bash
-./server <port default 8080>
+./server <camera_index> <addr_port default 8080>
 ```
 
 ## Run Client
