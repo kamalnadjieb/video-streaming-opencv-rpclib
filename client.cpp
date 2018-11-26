@@ -1,9 +1,22 @@
+#include <iostream>
 #include <opencv2/opencv.hpp>
 #include <rpc/client.h>
 #include "custom_mat.h"
 
 int main(int argc, char *argv[]) {
-    rpc::client client("127.0.0.1", rpc::constants::DEFAULT_PORT);
+    std::string addr = "127.0.0.1";
+    int port = rpc::constants::DEFAULT_PORT;
+
+    if (argc > 1) {
+        addr = argv[1];
+    }
+
+    if (argc > 2) {
+        port = atoi(argv[2]);
+    }
+
+    rpc::client client(addr, port);
+    std::cout << "Start listening " << addr << ":" << port << std::endl;
 
     while (true) {
         CustomMat cm = client.call("capture").as<CustomMat>();
