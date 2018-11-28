@@ -3,8 +3,9 @@
 #include <rpc/server.h>
 #include "custom_mat.h"
 
-
 cv::VideoCapture cap;
+cv::Mat m;
+CustomMat cm;
 
 int main(int argc, char *argv[]) {
     int index;
@@ -32,10 +33,8 @@ int main(int argc, char *argv[]) {
     std::cout << "Start server at port " << port << std::endl;
 
     srv.bind("capture", []() {
-        cv::Mat m;
         cap >> m;
 
-        CustomMat cm;
         cm.rows = m.rows;
         cm.cols = m.cols;
         cm.type = m.type();

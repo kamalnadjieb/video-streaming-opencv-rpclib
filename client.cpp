@@ -18,10 +18,13 @@ int main(int argc, char *argv[]) {
     rpc::client client(addr, port);
     std::cout << "Start listening " << addr << ":" << port << std::endl;
 
-    while (true) {
-        CustomMat cm = client.call("capture").as<CustomMat>();
+    CustomMat cm;
+    cv::Mat image;
 
-        cv::Mat image(cm.rows, cm.cols, cm.type, &cm.data[0], cv::Mat::AUTO_STEP);
+    while (true) {
+        cm = client.call("capture").as<CustomMat>();
+
+        image = cv::Mat(cm.rows, cm.cols, cm.type, &cm.data[0], cv::Mat::AUTO_STEP);
 
         cv::imshow("image", image);
         int key = cv::waitKey(1);
