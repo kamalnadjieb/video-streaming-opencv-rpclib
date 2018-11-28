@@ -42,6 +42,7 @@ int main(int argc, char *argv[]) {
         int size = m.total() * m.elemSize();
         cm.data.resize(size);
         std::memcpy(&cm.data[0], m.data, size * sizeof(unsigned char));
+        cm.data.shrink_to_fit();
 
         return cm;
     });
