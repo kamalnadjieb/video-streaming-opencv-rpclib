@@ -1,11 +1,10 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include <rpc/server.h>
-#include "custom_mat.h"
 
 cv::VideoCapture cap;
-cv::Mat m;
-CustomMat cm;
+cv::Mat image;
+std::vector<unsigned char> buff;
 
 int main(int argc, char *argv[]) {
     int index;
@@ -33,19 +32,17 @@ int main(int argc, char *argv[]) {
     std::cout << "Start server at port " << port << std::endl;
 
     srv.bind("capture", []() {
-        cap >> m;
+        cap >> image;
 
-        cm.rows = m.rows;
-        cm.cols = m.cols;
-        cm.type = m.type();
+        std::vector<int> param(2);
+        param[0] = cv::IMWRITE_JPEG_QUALITY;
+        param[1] = 80;//default(95) 0-100
+        cv::imencode(".jpg", image, buff, param);
 
-        int size = m.total() * m.elemSize();
-        cm.data.clear();
-        cm.data.assign(m.data, m.data + size);
-
-        return cm;
+        return buff;
     });
 
     srv.run();
+
     return 0;
 }

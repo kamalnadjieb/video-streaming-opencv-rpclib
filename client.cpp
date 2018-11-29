@@ -1,7 +1,9 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include <rpc/client.h>
-#include "custom_mat.h"
+
+std::vector<unsigned char> buff;
+cv::Mat image;
 
 int main(int argc, char *argv[]) {
     std::string addr = "127.0.0.1";
@@ -18,13 +20,9 @@ int main(int argc, char *argv[]) {
     rpc::client client(addr, port);
     std::cout << "Start listening " << addr << ":" << port << std::endl;
 
-    CustomMat cm;
-    cv::Mat image;
-
     while (true) {
-        cm = client.call("capture").as<CustomMat>();
-
-        image = cv::Mat(cm.rows, cm.cols, cm.type, &cm.data[0], cv::Mat::AUTO_STEP);
+        buff = client.call("capture").as<std::vector<unsigned char>>();
+        image = cv::imdecode(buff, 1);
 
         cv::imshow("image", image);
         int key = cv::waitKey(1);
