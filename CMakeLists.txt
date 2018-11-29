@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.9)
 project(OpenCV_RPC)
 
 find_package(OpenCV 3.4 REQUIRED)

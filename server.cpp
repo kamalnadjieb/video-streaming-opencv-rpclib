@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
     }
 
     cap.open(index);
-    if(!cap.isOpened()) {
+    if (!cap.isOpened()) {
         std::cout << "Can't open camera by index " << index << std::endl;
         exit(1);
     }
@@ -40,9 +40,8 @@ int main(int argc, char *argv[]) {
         cm.type = m.type();
 
         int size = m.total() * m.elemSize();
-        cm.data.resize(size);
-        std::memcpy(&cm.data[0], m.data, size * sizeof(unsigned char));
-        cm.data.shrink_to_fit();
+        cm.data.clear();
+        cm.data.assign(m.data, m.data + size);
 
         return cm;
     });
