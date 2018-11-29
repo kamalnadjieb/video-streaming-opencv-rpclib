@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
 
         std::vector<int> param(2);
         param[0] = cv::IMWRITE_JPEG_QUALITY;
-        param[1] = 80;//default(95) 0-100
+        param[1] = 95;//default(95) 0-100
         cv::imencode(".jpg", image, buff, param);
 
         return buff;
